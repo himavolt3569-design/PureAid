@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { ArrowRight, LockKeyhole, Loader2, Mail, ShieldCheck } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,6 +29,9 @@ const loginSchema = z.object({
 
 export function LoginForm({ nextPath }: { nextPath: string }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captchaRef = useRef<HCaptcha>(null);
+  const hcaptchaSiteKey = process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY;
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -38,13 +42,26 @@ export function LoginForm({ nextPath }: { nextPath: string }) {
   });
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+    if (!hcaptchaSiteKey) {
+      toast.error("CAPTCHA is not configured.");
+      return;
+    }
+
+    if (!captchaToken) {
+      toast.error("Please complete the CAPTCHA.");
+      return;
+    }
+
     setIsLoading(true);
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
+    formData.append("captchaToken", captchaToken);
     formData.append("next", nextPath);
 
     const result = await login(formData);
+    captchaRef.current?.resetCaptcha();
+    setCaptchaToken("");
 
     if (result?.error) {
       toast.error(result.error);
@@ -117,6 +134,21 @@ export function LoginForm({ nextPath }: { nextPath: string }) {
                   </FormItem>
                 )}
               />
+
+              {hcaptchaSiteKey ? (
+                <div className="flex justify-center">
+                  <HCaptcha
+                    ref={captchaRef}
+                    sitekey={hcaptchaSiteKey}
+                    onVerify={setCaptchaToken}
+                    onExpire={() => setCaptchaToken("")}
+                    onError={() => {
+                      setCaptchaToken("");
+                      toast.error("CAPTCHA failed to load. Please try again.");
+                    }}
+                  />
+                </div>
+              ) : null}
 
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 size-4 animate-spin" /> : null}

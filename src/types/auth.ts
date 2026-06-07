@@ -37,6 +37,7 @@ export type SignupSchema = z.infer<typeof signupSchema>;
 export const loginSchema = z.object({
   email: z.string().trim().email({ message: "Please enter a valid email address." }),
   password: z.string().min(1, { message: "Password is required." }),
+  captchaToken: z.string().min(1, { message: "Please complete the CAPTCHA." }),
 });
 
 export type LoginSchema = z.infer<typeof loginSchema>;

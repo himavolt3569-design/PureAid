@@ -28,6 +28,9 @@ export async function login(formData: FormData) {
   const { error, data: authData } = await supabase.auth.signInWithPassword({
     email: parsed.data.email,
     password: parsed.data.password,
+    options: {
+      captchaToken: parsed.data.captchaToken,
+    },
   })
 
   if (error) {
