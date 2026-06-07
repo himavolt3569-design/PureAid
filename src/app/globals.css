@@ -1,0 +1,301 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-paper-white: var(--paper-white);
+  --color-deep-indigo: var(--deep-indigo);
+  --color-vibrant-coral: var(--vibrant-coral);
+  --color-forest-green: var(--forest-green);
+  --color-slate-gray: var(--slate-gray);
+  --color-primary-fixed-dim: var(--primary-fixed-dim);
+  --color-tertiary-fixed: var(--tertiary-fixed);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-outline-variant: var(--outline-variant);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-accent: var(--font-accent);
+  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+:root {
+  --paper-white: #ffffff;
+  --deep-indigo: #1C1C1E; /* Apple System Gray 6 Dark */
+  --vibrant-coral: #FF3B30; /* Apple System Red */
+  --forest-green: #34C759; /* Apple System Green */
+  --slate-gray: #8E8E93; /* Apple System Gray */
+  --primary-fixed-dim: #E5E5EA;
+  --tertiary-fixed: #E5E5EA;
+  --surface-container-low: #F2F2F7; /* Apple Grouped Background */
+  --surface-container: #F2F2F7;
+  --surface-container-high: #E5E5EA;
+  --outline-variant: #E5E5EA;
+
+  --background: #F2F2F7;
+  --foreground: #1C1C1E;
+  --primary: #1C5438; /* Dark Greenish */
+  --primary-foreground: #ffffff;
+  --border: #E5E5EA;
+  --input: #8E8E93;
+  --ring: #1C5438;
+  --radius: 1.25rem; /* HIG Elegant Roundness */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+  a,
+  button {
+    @apply transition-colors;
+  }
+}
+
+/* Stitch-Design Form Styles */
+.ghost-input:focus {
+  border-bottom-color: var(--deep-indigo);
+  outline: none;
+  box-shadow: none;
+}
+.ghost-input:focus + label,
+.ghost-input:not(:placeholder-shown) + label {
+  transform: translateY(-20px) scale(0.85);
+  color: var(--deep-indigo);
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[1440px] px-5 md:px-10 lg:px-20;
+  }
+
+  .label-caps {
+    @apply text-xs font-bold uppercase leading-4 tracking-[0.1em];
+  }
+
+  .display-title {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    line-height: 1.08;
+  }
+
+  @media (min-width: 768px) {
+    .display-title {
+      font-size: 80px;
+      line-height: 88px;
+    }
+  }
+
+  .headline-xl {
+    @apply text-3xl font-bold leading-10 md:text-[40px] md:leading-[48px];
+  }
+
+  .headline-md {
+    @apply text-2xl font-semibold leading-8;
+  }
+
+  .ghost-field {
+    height: 3.5rem;
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--slate-gray);
+    border-radius: 0;
+    background: transparent;
+    padding: 1.25rem 0 0.5rem;
+    color: var(--foreground);
+    font-size: 1rem;
+    box-shadow: none;
+    outline: none;
+  }
+
+  .ghost-field:focus-visible {
+    border-color: var(--vibrant-coral);
+    box-shadow: 0 2px 10px rgba(189, 163, 139, 0.15);
+  }
+
+  .premium-shadow {
+    box-shadow: 0 20px 40px rgba(90, 102, 82, 0.08), 0 1px 3px rgba(0, 0, 0, 0.03);
+    border-radius: var(--radius-lg);
+  }
+
+  .form-panel {
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(41, 40, 38, 0.04);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 768px) {
+    .form-panel {
+      padding: 2rem;
+    }
+  }
+
+  .form-section-heading {
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--surface-container);
+    padding-bottom: 1.25rem;
+  }
+
+  .field-stack {
+    @apply grid gap-2;
+  }
+
+  .field-label {
+    color: var(--slate-gray);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    line-height: 1rem;
+    text-transform: uppercase;
+  }
+
+  .field-help {
+    color: var(--slate-gray);
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+
+  .textarea-field {
+    margin-top: 0.75rem;
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--slate-gray);
+    border-radius: 0;
+    background: transparent;
+    padding: 0.75rem 0;
+    color: var(--foreground);
+    font-size: 1rem;
+    line-height: 1.75rem;
+    outline: none;
+    transition: border-color 150ms ease;
+  }
+
+  .textarea-field:focus {
+    border-color: var(--deep-indigo);
+  }
+
+  .textarea-field:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .choice-card {
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius);
+    background: var(--paper-white);
+    padding: 1.25rem;
+    text-align: left;
+    transition: all 150ms ease;
+  }
+
+  .choice-card:hover {
+    border-color: var(--primary);
+    background: var(--surface-container-low);
+  }
+
+  .choice-card-active {
+    border-color: var(--primary);
+    background: var(--surface-container-low);
+    color: var(--primary);
+  }
+
+  .form-icon-field svg {
+    left: 0;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .form-icon-field input {
+    padding-left: 1.75rem;
+  }
+
+  .form-prefix-field input {
+    padding-left: 3rem;
+  }
+
+  .form-prefix-field span {
+    left: 0;
+  }
+
+  .payment-card {
+    --payment-accent: var(--primary);
+    --payment-accent-bg: var(--surface-container-low);
+    border: 1px solid var(--surface-container);
+    border-left: 3px solid var(--payment-accent);
+    background: var(--paper-white);
+  }
+
+  .payment-card-open {
+    background: var(--payment-accent-bg);
+  }
+
+  .payment-esewa {
+    --payment-accent: #3f7f4f;
+    --payment-accent-bg: rgba(63, 127, 79, 0.08);
+  }
+
+  .payment-khalti {
+    --payment-accent: #6b4a83;
+    --payment-accent-bg: rgba(107, 74, 131, 0.08);
+  }
+
+  .payment-imepay {
+    --payment-accent: #9a3f3f;
+    --payment-accent-bg: rgba(154, 63, 63, 0.08);
+  }
+
+  .payment-bank {
+    --payment-accent: #455f88;
+    --payment-accent-bg: rgba(69, 95, 136, 0.08);
+  }
+
+  .payment-accent-text {
+    color: var(--payment-accent);
+  }
+
+  /* Premium Leaflet Map Overrides */
+  .leaflet-popup-content-wrapper {
+    background: var(--paper-white) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: 0 10px 30px rgba(41, 40, 38, 0.15) !important;
+    border: 1px solid var(--outline-variant) !important;
+    padding: 0 !important;
+  }
+  .leaflet-popup-content {
+    margin: 12px 16px !important;
+  }
+  .leaflet-popup-tip {
+    background: var(--paper-white) !important;
+    border: 1px solid var(--outline-variant) !important;
+    border-top: none !important;
+    border-left: none !important;
+    box-shadow: 2px 2px 5px rgba(41, 40, 38, 0.05) !important;
+  }
+}
