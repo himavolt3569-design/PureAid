@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { ensureProfile } from '@/lib/auth'
+import { getSiteUrl } from '@/lib/site-url'
 import { loginSchema, signupSchema } from '@/types/auth'
 
 function safeRedirectPath(value: FormDataEntryValue | null) {
@@ -55,6 +56,7 @@ export async function signup(formData: FormData) {
     email: parsed.data.email,
     password: parsed.data.password,
     options: {
+      emailRedirectTo: `${getSiteUrl()}/auth/callback?next=/dashboard`,
       data: {
         full_name: `${parsed.data.firstName} ${parsed.data.lastName}`,
         phone: parsed.data.phone || '',

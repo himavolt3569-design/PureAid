@@ -54,7 +54,7 @@ export default function SignupPage() {
     setIsLoading(true);
     const formData = new FormData();
     Object.entries(values).forEach(([key, value]) => {
-      if (key !== "confirmPassword") formData.append(key, value);
+      formData.append(key, value);
     });
     
     const result = await signup(formData);
