@@ -57,6 +57,7 @@ export async function signup(formData: FormData) {
     password: parsed.data.password,
     options: {
       emailRedirectTo: `${getSiteUrl()}/auth/callback?next=/dashboard`,
+      captchaToken: parsed.data.captchaToken,
       data: {
         full_name: `${parsed.data.firstName} ${parsed.data.lastName}`,
         phone: parsed.data.phone || '',

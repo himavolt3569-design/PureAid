@@ -19,6 +19,7 @@ export const signupSchema = z.object({
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().min(1),
   role: z.enum(["donor", "recipient"]),
+  captchaToken: z.string().min(1, { message: "Please complete the CAPTCHA." }),
   phone: z
     .string()
     .trim()
